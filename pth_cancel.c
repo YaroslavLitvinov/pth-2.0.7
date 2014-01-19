@@ -30,7 +30,8 @@
 /* set cancellation state */
 void pth_cancel_state(int newstate, int *oldstate)
 {
-    if (oldstate != NULL)
+    if (pth_current == NULL) return;
+    else if (oldstate != NULL)
         *oldstate = pth_current->cancelstate;
     if (newstate != 0)
         pth_current->cancelstate = newstate;

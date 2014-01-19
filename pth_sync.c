@@ -111,8 +111,11 @@ int pth_mutex_release(pth_mutex_t *mutex)
         return pth_error(FALSE, EDEADLK);
     if (!(mutex->mx_state & PTH_MUTEX_LOCKED))
         return pth_error(FALSE, EDEADLK);
+#define DISABLE_SECURITY_CHECK
+#ifndef DISABLE_SECURITY_CHECK
     if (mutex->mx_owner != pth_current)
         return pth_error(FALSE, EACCES);
+#endif
 
     /* decrement recursion counter and release mutex */
     mutex->mx_count--;
